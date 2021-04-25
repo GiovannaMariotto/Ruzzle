@@ -1,5 +1,6 @@
 package it.polito.tdp.ruzzle.model;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import it.polito.tdp.ruzzle.db.DizionarioDAO;
@@ -45,14 +46,55 @@ public class Model {
 		this.statusTextProperty().set(statusText);
 	}
 
+	//passare le lettere tutte Maiuscule oppure minuscule
 	public List<Pos> trovaParola(String parola) {
-		// TODO Auto-generated method stub
+		for(Pos p : board.getPositions()) {
+			//confronto di char
+			if( board.getCellValueProperty(p).get().charAt(0)==parola.charAt(0)) {
+				List<Pos> percorso = new ArrayList<Pos>();
+				percorso.add(p);
+				if(cerca(parola,1,percorso)) {
+					return percorso;
+				}
+			}
+		}
+		
 		return null;
 	}
 
+	private boolean cerca(String parola, int livello, List<Pos> percorso) {
+		//caso terminale
+		if(livello==parola.length()) {
+			return true;
+		}
+		Pos ultima=percorso.get(percorso.size()-1);
+		List<Pos> adiacenti = board.getAdjacencies(ultima);
+		
+		for(Pos p : adiacenti) {
+			//StringProperty associata ad un bottone c'è solo uno charattere (alla posizione 0)
+			if(!percorso.contains(p) && parola.charAt(livello)== board.getCellValueProperty(p).get().charAt(0)) {
+				//Controllo: se percorso ha già quella casella, non puo add nuovamente
+				percorso.add(p);
+				//faccio ricorsione
+				if(cerca(parola,livello+1,percorso))
+					return true; //uscita rapida della ricorsione
+				percorso.remove(percorso.size()-1); //backtracking
+			}
+		}
+		return false;
+	}
+
 	public List<String> trovaTutte() {
-		// TODO Auto-generated method stub
-		return null;
+		List<String> tutte = new ArrayList<String>();
+		for(String parola : this.dizionario) {
+			parola = parola.toUpperCase();
+			if(parola.length()>1) {
+				if(this.trovaParola(parola)!=null) {
+				tutte.add(parola);
+				}
+			}
+		}
+		return tutte;
 	}
 	
 

@@ -124,6 +124,11 @@ public class FXMLController {
     @FXML
     void handleReset(ActionEvent event) {
     	model.reset();
+    	//refresh della interfaccia grafica
+    	for(Button b : letters.values()) {
+    		b.setDefaultButton(false);
+    	}
+    	this.txtResult.clear();
     }
     
     @FXML
@@ -136,6 +141,8 @@ public class FXMLController {
     		txtResult.appendText(s + "\n");
     	}
     }
+    
+    
 
     @FXML // This method is called by the FXMLLoader when initialization is complete
     void initialize() {

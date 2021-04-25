@@ -2,7 +2,7 @@ package it.polito.tdp.ruzzle.model;
 
 /**
  * Classe che indentifica la posizione di una casella del gioco
- * 
+ * Posizione di una matrice
  */
 public class Pos {
 	private int row;

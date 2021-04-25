@@ -10,13 +10,16 @@ import javafx.beans.property.StringProperty;
 
 /**
  * Memorizza le lettere presenti nella scacchiera Ruzzle.
+ * Chess Board
  * @author Fulvio
  *
  */
 public class Board {
 	private List<Pos> positions;
 	private Map<Pos, StringProperty> cells;
-
+	//StringProperty: bottone direttamente collegato ad una determinata StringProperty
+	//es: bottone legato alla String "J"
+	
 	private int size;
 
 	/**
